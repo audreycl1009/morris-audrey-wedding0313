@@ -170,6 +170,10 @@ h2{font-weight:400;font-size:clamp(26px,5vw,34px);letter-spacing:.35em;margin:4p
 @media (min-width:860px){.g-item{margin-bottom:18px}}
 .g-item img{width:100%;height:auto;transition:transform .8s ease}
 .g-item:hover img{transform:scale(1.04)}
+.sub-head{text-align:center;display:flex;flex-direction:column;align-items:center;margin:72px 0 36px}
+.sub-head h3{font-weight:400;font-size:clamp(22px,4vw,28px);letter-spacing:.35em;padding-left:.35em;color:var(--wine);margin:2px 0 0}
+.sub-head p{font-family:var(--f-latin);letter-spacing:.35em;color:var(--muted);font-size:15px}
+.sub-head::before{content:"";width:1px;height:48px;background:linear-gradient(transparent,var(--gold));margin-bottom:22px}
 .lightbox{border:0;padding:0;background:transparent;max-width:100vw;max-height:100vh;width:100vw;height:100vh}
 .lightbox::backdrop{background:rgba(30,6,10,.92)}
 .lightbox .stage{width:100%;height:100%;display:grid;place-items:center;padding:56px 16px}
@@ -367,6 +371,12 @@ body.locked{overflow:hidden}
         <svg class="ornament"><use href="#orn"/></svg>
       </div>
       <div class="gallery" id="gal"></div>
+      <div class="sub-head rv">
+        <div class="eyebrow">Engagement</div>
+        <h3>文定之喜</h3>
+        <p>2026 . 06 . 27</p>
+      </div>
+      <div class="gallery" id="gal-engage"></div>
     </div>
   </section>
 
@@ -451,6 +461,7 @@ var EVENT = {
   rsvpUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdC5sszMY3VZCIumKLpH-BB_lg_zdZ5-igS2USP22CsFNPF3w/viewform"                            // 貼上 Google 表單網址
 };
 var PHOTOS = ["g01","g02","g03","g04","g05","g06","g07","g08","g09","g10","g11","g12","g13","g14"];
+var ENGAGE = ["e01","e02","e03","e04","e05","e06","e07","e08"];
 
 (function(){
   var d = EVENT.start, pad = function(n){ return String(n).padStart(2,"0"); };
@@ -490,17 +501,23 @@ var PHOTOS = ["g01","g02","g03","g04","g05","g06","g07","g08","g09","g10","g11",
   else { r.removeAttribute("href"); r.setAttribute("aria-disabled","true"); document.getElementById("rsvp-todo").hidden = false; }
 
   // 相簿 + 燈箱
-  var gal = document.getElementById("gal"), lb = document.getElementById("lb"), lbImg = document.getElementById("lb-img"), cur = 0;
-  PHOTOS.forEach(function(p,i){
-    var b = document.createElement("button");
-    b.className = "g-item"; b.type = "button"; b.setAttribute("aria-label","放大第 "+(i+1)+" 張照片");
-    b.innerHTML = '<img src="photos/'+p+'.jpg" alt="婚紗照 '+(i+1)+'" loading="lazy">';
-    b.addEventListener("click", function(){ show(i); });
-    gal.appendChild(b);
-  });
+  var lb = document.getElementById("lb"), lbImg = document.getElementById("lb-img"), cur = 0, ALL = [];
+  function fill(el, list, label){
+    list.forEach(function(p){
+      var i = ALL.length, n = list.indexOf(p) + 1;
+      ALL.push({src: p, alt: label+" "+n});
+      var b = document.createElement("button");
+      b.className = "g-item"; b.type = "button"; b.setAttribute("aria-label","放大"+label+"第 "+n+" 張");
+      b.innerHTML = '<img src="photos/'+p+'.jpg" alt="'+label+' '+n+'" loading="lazy">';
+      b.addEventListener("click", function(){ show(i); });
+      el.appendChild(b);
+    });
+  }
+  fill(document.getElementById("gal"), PHOTOS, "婚紗照");
+  fill(document.getElementById("gal-engage"), ENGAGE, "文定照");
   function show(i){
-    cur = (i + PHOTOS.length) % PHOTOS.length;
-    lbImg.src = "photos/"+PHOTOS[cur]+".jpg"; lbImg.alt = "婚紗照 "+(cur+1);
+    cur = (i + ALL.length) % ALL.length;
+    lbImg.src = "photos/"+ALL[cur].src+".jpg"; lbImg.alt = ALL[cur].alt;
     if (lb.showModal && !lb.open) lb.showModal();
   }
   document.getElementById("lb-close").onclick = function(){ lb.close(); };
