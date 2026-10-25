@@ -58,7 +58,12 @@ p{margin:0}
 .nav ul a{text-decoration:none;color:var(--ink)}
 .nav ul a:hover{color:var(--wine)}
 .nav .cta{font-size:13px;letter-spacing:.2em;text-decoration:none;color:var(--ivory);background:var(--wine);padding:6px 16px;border-radius:999px}
-@media (max-width:720px){.nav ul{display:none}}
+@media (max-width:720px){
+  .nav .mark{display:none}
+  .nav ul{gap:14px;font-size:13px;letter-spacing:.12em}
+  .nav .cta{font-size:12px;letter-spacing:.12em;padding:6px 12px;white-space:nowrap}
+}
+@media (max-width:350px){.nav ul{gap:10px;letter-spacing:.05em}}
 
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:100svh;display:grid;background:var(--wine);color:var(--ivory);overflow:hidden}
