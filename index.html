@@ -175,11 +175,12 @@ html[lang="en"] .agenda-venue span{font-size:24px;font-weight:500}
 .btn[aria-disabled="true"]{opacity:.5;pointer-events:none}
 
 /* ---------- gallery ---------- */
-.gallery{columns:2;column-gap:12px}
-@media (min-width:860px){.gallery{columns:3;column-gap:18px}}
-.g-item{display:block;width:100%;margin:0 0 12px;break-inside:avoid;padding:0;border:0;background:var(--paper-2);cursor:zoom-in;overflow:hidden;border-radius:2px}
-@media (min-width:860px){.g-item{margin-bottom:18px}}
-.g-item img{width:100%;height:auto;transition:transform .8s ease}
+/* 整齊列排版：每一列依照片長寬比分配寬度，剛好撐滿整列，不留空位 */
+.gallery{display:flex;flex-direction:column;gap:10px}
+.g-row{display:flex;gap:10px}
+@media (min-width:860px){.gallery,.g-row{gap:16px}}
+.g-item{display:block;flex:var(--r) 1 0;min-width:0;aspect-ratio:var(--r);padding:0;border:0;background:var(--paper-2);cursor:zoom-in;overflow:hidden;border-radius:2px}
+.g-item img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
 .g-item:hover img{transform:scale(1.04)}
 .sub-head{scroll-margin-top:24px;text-align:center;display:flex;flex-direction:column;align-items:center;margin:72px 0 36px}
 .sub-head h3{font-weight:400;font-size:clamp(22px,4vw,28px);letter-spacing:.35em;padding-left:.35em;color:var(--wine);margin:2px 0 0}
@@ -582,15 +583,52 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
   // 相簿 + 燈箱
   // 每個相簿各自一組，燈箱只在同一組裡左右切換
   var lb = document.getElementById("lb"), lbImg = document.getElementById("lb-img"), cur = 0, group = [], label = "";
+  var RATIO = {"e0089":1.5007,"e0109":1.5007,"e0119":1.5007,"e0129":1.5007,"e0149":1.5007,"e0164":1.5007,"e0179":1.5007,"e0189":1.5007,"e0204":1.5007,"e0259":1.5007,"e0264":0.6664,"e0274":0.6664,"e0279":0.6664,"e0284":0.6664,"e0294":1.5007,"e0304":1.5007,"e0319":1.5007,"e0324":0.6664,"e0329":0.6664,"e0354":1.5007,"e0359":1.7771,"e0374":1.5007,"e0394":1.5007,"e0409":1.5007,"e0429":1.5007,"e0444":1.5007,"e0454":0.6664,"e0469":0.6664,"e0512":0.6664,"e0519":0.6664,"e0554":1.5007,"e0604":1.5007,"e0614":1.5007,"e0644":1.5007,"e0729":0.6664,"e0744":1.5007,"g01":0.6667,"g02":0.6667,"g03":0.6667,"g04":0.6667,"g05":1.5,"g06":0.6667,"g07":0.6667,"g08":0.6667,"g09":0.6667,"g10":0.6667,"g11":0.6667,"g12":1.5,"g13":0.6667,"g14":0.6667};
+  var galleries = [];
   function fill(el, list, name){
+    var items = [];
     list.forEach(function(p, i){
       var b = document.createElement("button");
+      b.style.setProperty("--r", RATIO[p] || 1);
       b.className = "g-item"; b.type = "button"; b.setAttribute("aria-label","放大"+name+"第 "+(i+1)+" 張");
       b.innerHTML = '<img src="photos/'+p+'.jpg" alt="'+name+' '+(i+1)+'" loading="lazy">';
       b.addEventListener("click", function(){ group = list; label = name; show(i); });
-      el.appendChild(b);
+      items.push(b);
+    });
+    galleries.push({el: el, items: items, list: list, w: 0});
+    layout(galleries[galleries.length - 1]);
+  }
+  // 把照片依序分成 k 列，讓每列的長寬比總和盡量平均（線性分割），每列再用 flex 撐滿寬度
+  function layout(g){
+    var W = g.el.clientWidth;
+    if (!W || W === g.w) return;
+    g.w = W;
+    var r = g.list.map(function(p){ return RATIO[p] || 1; });
+    var total = r.reduce(function(a, b){ return a + b; }, 0);
+    var targetH = W < 600 ? 210 : 330;
+    var k = Math.max(1, Math.min(r.length, Math.round(total * targetH / W)));
+    // dp[i][j]：前 i 張分成 j 列的最小誤差
+    var n = r.length, pre = [0], ideal = total / k, INF = 1e18, dp = [], cut = [];
+    for (var i = 0; i < n; i++) pre.push(pre[i] + r[i]);
+    for (i = 0; i <= n; i++){ dp.push(new Array(k + 1).fill(INF)); cut.push(new Array(k + 1).fill(0)); }
+    dp[0][0] = 0;
+    for (var j = 1; j <= k; j++)
+      for (i = j; i <= n; i++)
+        for (var m = j - 1; m < i; m++){
+          var d = pre[i] - pre[m] - ideal, c = dp[m][j - 1] + d * d;
+          if (c < dp[i][j]) { dp[i][j] = c; cut[i][j] = m; }
+        }
+    var rows = [], end = n;
+    for (j = k; j >= 1; j--){ var start = cut[end][j]; rows.unshift(g.items.slice(start, end)); end = start; }
+    g.el.textContent = "";
+    rows.forEach(function(row){
+      var div = document.createElement("div"); div.className = "g-row";
+      row.forEach(function(b){ div.appendChild(b); });
+      g.el.appendChild(div);
     });
   }
+  var rt;
+  window.addEventListener("resize", function(){ clearTimeout(rt); rt = setTimeout(function(){ galleries.forEach(layout); }, 150); });
   fill(document.getElementById("gal"), PHOTOS, "婚紗照");
   fill(document.getElementById("gal-engage"), ENGAGE, "文定照");
   fill(document.getElementById("gal-full"), ENGAGE_ALL, "文定照");
@@ -641,7 +679,7 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
     if (on && epage.hidden) homeY = window.scrollY;
     epage.hidden = !on;
     homeParts.forEach(function(el){ el.hidden = on; });
-    if (on) { window.scrollTo({top: 0, behavior: "instant"}); return; }
+    if (on) { galleries.forEach(layout); window.scrollTo({top: 0, behavior: "instant"}); return; }
     var target = location.hash && document.getElementById(location.hash.slice(1));
     if (target) target.scrollIntoView(); else window.scrollTo({top: homeY, behavior: "instant"});
   }
