@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Morris & Audrey 婚禮</title>
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Morris & Audrey 婚禮喜帖">
+<meta property="og:description" content="2027.03.13（六）中午｜台中林酒店 三樓國全廳">
+<meta property="og:image" content="photos/cover.jpg">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: one narrow letterpress card column on paper, wine ink + gold foil, sections divided by sprig ornaments */
+:root{
+  --paper:#f6eee2;
+  --paper-2:#efe3d1;
+  --card:#fbf6ee;
+  --wine:#6b1620;
+  --wine-deep:#4a0d14;
+  --gold:#b48a3c;
+  --ink:#3a2a26;
+  --muted:#7d6a62;
+  --line:#dccbb4;
+  --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --f-body:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --f-latin:"Cormorant Garamond","Times New Roman",serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(255,255,255,.5), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(180,138,60,.06), transparent 45%);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:16px;
+  line-height:1.8;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:24px 48px;
+}
+.wrap{max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+
+/* Cover */
+.cover{
+  background:var(--wine);
+  color:var(--card);
+  border-radius:4px;
+  padding-block:36px 40px;
+  padding-inline:24px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 18px 40px -24px rgba(74,13,20,.6);
+}
+.cover::before{
+  content:"";position:absolute;inset:12px;border:1px solid rgba(214,180,110,.55);border-radius:2px;pointer-events:none;
+}
+.cover .eyebrow{font-family:var(--f-latin);font-style:italic;font-size:18px;letter-spacing:.08em;color:#d6b46e}
+.cover h1{
+  font-family:var(--f-display);font-weight:600;font-size:clamp(34px,10vw,44px);line-height:1.3;margin:10px 0 2px;letter-spacing:.12em;
+  text-wrap:balance;
+}
+.cover h1 .amp{display:block;font-family:var(--f-latin);font-style:italic;font-weight:500;font-size:.7em;color:#d6b46e;letter-spacing:0;line-height:1.1}
+.cover .date{font-family:var(--f-latin);font-size:22px;letter-spacing:.3em;margin-top:14px}
+.cover .xi{
+  width:64px;height:64px;margin:22px auto 0;border:1px solid #d6b46e;border-radius:50%;
+  display:grid;place-items:center;font-family:var(--f-display);font-size:30px;color:#d6b46e;
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--f-body);font-size:15px;letter-spacing:.2em;
+  padding:12px 28px;border-radius:999px;border:1px solid currentColor;
+  color:var(--wine);background:transparent;text-decoration:none;cursor:pointer;
+  transition:background .2s,color .2s;
+}
+.btn:hover{background:var(--wine);color:var(--card)}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.btn.solid{background:var(--wine);color:var(--card);border-color:var(--wine)}
+.btn.solid:hover{background:var(--wine-deep)}
+.cover .btn{color:#f3e2bd;margin-top:28px}
+.cover .btn:hover{background:#f3e2bd;color:var(--wine)}
+
+/* Sections */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding-block:36px;
+  padding-inline:24px;
+  text-align:center;
+}
+.card h2{
+  font-family:var(--f-display);font-weight:600;font-size:22px;letter-spacing:.3em;color:var(--wine);margin:0;
+  text-wrap:balance;
+}
+.card .en{display:block;font-family:var(--f-latin);font-style:italic;font-weight:500;font-size:15px;letter-spacing:.12em;color:var(--gold);margin-top:2px}
+.sprig{display:block;width:96px;height:20px;margin:14px auto 20px;color:var(--gold)}
+.muted{color:var(--muted)}
+p{margin:0}
+
+.parents{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.parents div{display:flex;flex-direction:column;gap:2px}
+.parents .label{font-size:13px;letter-spacing:.15em;color:var(--muted)}
+.parents .name{font-size:17px;letter-spacing:.15em}
+.announce{font-size:15px;letter-spacing:.15em;color:var(--muted)}
+.couple{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:14px}
+.couple .person{display:flex;flex-direction:column}
+.couple .person b{font-weight:600;font-size:22px;letter-spacing:.2em;color:var(--wine)}
+.couple .person small{font-size:13px;letter-spacing:.3em;color:var(--muted)}
+.couple .amp{font-family:var(--f-latin);font-style:italic;font-size:30px;color:var(--gold)}
+
+/* Date block */
+.datebox{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;margin:6px auto 0;max-width:300px}
+.datebox .side{font-size:14px;letter-spacing:.2em;border-block:1px solid var(--line);padding-block:6px}
+.datebox .day{font-family:var(--f-latin);font-weight:600;font-size:64px;line-height:1;color:var(--wine)}
+.datebox .ym{font-family:var(--f-latin);font-size:18px;letter-spacing:.2em;margin-top:8px}
+.lunar{font-size:13px;letter-spacing:.15em;color:var(--muted);margin-top:4px}
+.times{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.times div{border:1px solid var(--line);border-radius:3px;padding-block:12px}
+.times .t{font-family:var(--f-latin);font-size:26px;font-weight:600;color:var(--wine);font-variant-numeric:tabular-nums}
+.times .k{font-size:13px;letter-spacing:.25em;color:var(--muted)}
+
+/* Album */
+.album{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;margin-inline:-24px;padding-inline:24px;scrollbar-width:thin}
+.album figure{
+  flex:0 0 78%;max-width:78%;aspect-ratio:2/3;margin:0;scroll-snap-align:center;border-radius:3px;
+  background:linear-gradient(160deg,var(--paper-2),#e4d3bb);
+  border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);font-size:14px;letter-spacing:.2em;
+  position:relative;overflow:hidden;
+}
+.album figure img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.album-hint{font-size:13px;color:var(--muted);letter-spacing:.1em;margin-top:6px}
+
+/* Countdown + calendar */
+.count{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:26px}
+.count div{display:flex;flex-direction:column}
+.count b{font-family:var(--f-latin);font-weight:600;font-size:34px;line-height:1.1;color:var(--wine);font-variant-numeric:tabular-nums}
+.count small{font-size:12px;letter-spacing:.2em;color:var(--muted)}
+.cal-title{font-family:var(--f-latin);font-size:20px;letter-spacing:.2em;color:var(--wine);margin-bottom:8px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:14px;font-variant-numeric:tabular-nums;max-width:320px;margin:0 auto}
+.cal span{aspect-ratio:1;display:grid;place-items:center}
+.cal .h{font-size:12px;color:var(--muted)}
+.cal .on{position:relative;color:var(--card);font-weight:600}
+.cal .on::before{content:"";position:absolute;inset:8%;border-radius:50%;background:var(--wine);z-index:0}
+.cal .on i{position:relative;font-style:normal}
+.row-btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:24px}
+
+/* Venue */
+.venue-name{font-size:19px;font-weight:600;letter-spacing:.15em;color:var(--wine)}
+.addr{font-size:14px;color:var(--muted);margin-top:4px}
+.addr-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-top:4px}
+.copy{font:inherit;font-size:12px;letter-spacing:.1em;color:var(--gold);background:none;border:1px solid var(--line);border-radius:999px;padding:2px 10px;cursor:pointer}
+.copy:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.dress{display:flex;justify-content:center;gap:10px;margin-top:14px}
+.dress i{width:28px;height:28px;border-radius:50%;border:1px solid var(--line)}
+
+/* Timeline */
+.flow{list-style:none;margin:0 auto;padding:0;max-width:300px;text-align:left;position:relative}
+.flow::before{content:"";position:absolute;left:66px;top:10px;bottom:10px;width:1px;background:var(--line)}
+.flow li{display:grid;grid-template-columns:56px 1fr;gap:22px;align-items:start;padding-block:8px;position:relative}
+.flow li::after{content:"";position:absolute;left:62px;top:18px;width:9px;height:9px;border-radius:50%;background:var(--card);border:1px solid var(--gold)}
+.flow time{font-family:var(--f-latin);font-weight:600;font-size:19px;color:var(--wine);text-align:right;font-variant-numeric:tabular-nums}
+.flow span{letter-spacing:.15em;font-size:15px}
+
+.rsvp-note{font-size:14px;color:var(--muted);margin-bottom:18px}
+.deadline{font-size:13px;color:var(--wine);letter-spacing:.1em;margin-top:12px}
+.todo{font-size:12px;color:var(--gold);margin-top:10px}
+
+footer{text-align:center;color:var(--muted);font-size:14px;letter-spacing:.2em;padding-block:8px}
+footer .heart{display:block;font-family:var(--f-latin);font-style:italic;color:var(--gold);font-size:18px}
+
+.hero{margin:0 auto 22px;width:72%;max-width:260px;aspect-ratio:2/3;border-radius:999px 999px 4px 4px;overflow:hidden;border:1px solid rgba(214,180,110,.7);padding:6px}
+.hero img{width:100%;height:100%;object-fit:cover;border-radius:999px 999px 2px 2px;display:block}
+.en-names{font-family:var(--f-latin);font-style:italic;font-size:20px;letter-spacing:.1em;color:#d6b46e}
+.flow small{display:block;font-size:12px;letter-spacing:.05em;color:var(--muted);margin-top:2px}
+.park{display:inline-block;margin-top:12px;font-size:13px;letter-spacing:.08em;color:var(--wine);border:1px solid var(--line);border-radius:999px;padding:4px 14px}
+.sel{user-select:all;font-variant-numeric:tabular-nums}
+/* gentle entrance from a visible resting state */
+@media (prefers-reduced-motion:no-preference){
+  .cover h1,.cover .date{animation:rise .9s ease-out both}
+  .cover .date{animation-delay:.15s}
+  @keyframes rise{from{transform:translateY(8px)}to{transform:none}}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="sprig" viewBox="0 0 96 20">
+    <path d="M2 10H38M58 10H94" stroke="currentColor" stroke-width=".8" fill="none"/>
+    <path d="M48 3c-3 3-3 11 0 14c3-3 3-11 0-14Z" fill="currentColor"/>
+    <path d="M44 10c-3-3-7-3-9 0c2 3 6 3 9 0ZM52 10c3-3 7-3 9 0c-2 3-6 3-9 0Z" fill="none" stroke="currentColor" stroke-width=".8"/>
+  </symbol>
+</svg>
+
+<main class="wrap">
+
+  <!-- 封面 -->
+  <header class="cover">
+    <div class="eyebrow">We're getting married</div>
+    <figure class="hero"><img src="photos/cover.jpg" alt="Morris 與 Audrey 的婚紗照"></figure>
+    <h1>俊睿<span class="amp">&amp;</span>軒曲</h1>
+    <div class="en-names">Morris &amp; Audrey</div>
+    <div class="date" id="cover-date">2027 . 03 . 13</div>
+    <a class="btn" href="#info">誠摯邀請</a>
+  </header>
+
+  <!-- 婚禮資訊 -->
+  <section class="card" id="info">
+    <h2>婚禮資訊<span class="en">Our Families</span></h2>
+    <svg class="sprig"><use href="#sprig"/></svg>
+    <div class="parents">
+      <div><span class="label">新郎父母</span><span class="name">胡國勇</span><span class="name">徐麗娟</span></div>
+      <div><span class="label">新娘父母</span><span class="name">張廖萬山</span><span class="name">林宜君</span></div>
+    </div>
+    <p class="announce">謹詹於下列時日<br>為子女舉行結婚典禮</p>
+    <div class="couple">
+      <div class="person"><b>胡俊睿</b><small>新郎 Morris</small></div>
+      <span class="amp">&amp;</span>
+      <div class="person"><b>張廖軒曲</b><small>新娘 Audrey</small></div>
+    </div>
+  </section>
+
+  <!-- 婚宴時間 -->
+  <section class="card">
+    <h2>婚宴時間<span class="en">The Reception</span></h2>
+    <svg class="sprig"><use href="#sprig"/></svg>
+    <div class="datebox">
+      <div class="side" id="weekday">星期六</div>
+      <div class="day" id="day-num">13</div>
+      <div class="side" id="month-zh">三月</div>
+    </div>
+    <div class="ym" id="ym">2027</div>
+    <div class="lunar" id="lunar"></div>
+    <div class="times">
+      <div><div class="t">11:00</div><div class="k">迎賓酒會</div></div>
+      <div><div class="t">12:00</div><div class="k">婚宴開始</div></div>
+    </div>
+  </section>
+
+  <!-- 相簿 -->
+  <section class="card">
+    <h2>婚紗相簿<span class="en">Gallery</span></h2>
+    <svg class="sprig"><use href="#sprig"/></svg>
+    <div class="album" id="album" tabindex="0" aria-label="婚紗照，可左右滑動">
+      <figure><img src="photos/p1.jpg" alt="婚紗照 1" loading="lazy"></figure>
+      <figure><img src="photos/p2.jpg" alt="婚紗照 2" loading="lazy"></figure>
+      <figure><img src="photos/p3.jpg" alt="婚紗照 3" loading="lazy"></figure>
+      <figure><img src="photos/p4.jpg" alt="婚紗照 4" loading="lazy"></figure>
+      <figure><img src="photos/p5.jpg" alt="婚紗照 5" loading="lazy"></figure>
+      <figure><img src="photos/p6.jpg" alt="婚紗照 6" loading="lazy"></figure>
+      <figure><img src="photos/p7.jpg" alt="婚紗照 7" loading="lazy"></figure>
+      <figure><img src="photos/p8.jpg" alt="婚紗照 8" loading="lazy"></figure>
+      <figure><img src="photos/p9.jpg" alt="婚紗照 9" loading="lazy"></figure>
+    </div>
+    <p class="album-hint">← 左右滑動 →</p>
+  </section>
+
+  <!-- 倒數 + 月曆 -->
+  <section class="card">
+    <h2>倒數計時<span class="en">Counting Down</span></h2>
+    <svg class="sprig"><use href="#sprig"/></svg>
+    <div class="count" aria-live="off">
+      <div><b id="cd-d">--</b><small>天</small></div>
+      <div><b id="cd-h">--</b><small>時</small></div>
+      <div><b id="cd-m">--</b><small>分</small></div>
+      <div><b id="cd-s">--</b><small>秒</small></div>
+    </div>
+    <div class="cal-title" id="cal-title">March 2027</div>
+    <div class="cal" id="cal"></div>
+    <div class="row-btns">
+      <a class="btn" id="gcal" href="#" target="_blank" rel="noopener">加入 Google 行事曆</a>
+    </div>
+  </section>
+
+  <!-- 地點 -->
+  <section class="card">
+    <h2>婚宴地點<span class="en">Venue</span></h2>
+    <svg class="sprig"><use href="#sprig"/></svg>
+    <p class="venue-name">台中林酒店　三樓國全廳</p>
+    <div class="addr-row">
+      <span class="addr" id="addr">台中市西屯區朝富路99號</span>
+      <button class="copy" type="button" id="copy-addr">複製地址</button>
+    </div>
+    <div class="row-btns">
+      <a class="btn solid" id="map" href="#" target="_blank" rel="noopener">Google 地圖導航</a>
+    </div>
+    <p class="muted" style="font-size:14px;margin-top:14px">飯店電話 <span class="sel">04-2255-5555</span></p>
+    <p class="park">當天車位有限，建議提早抵達或共乘</p>
+  </section>
+
+  <!-- 服裝 + 流程 -->
+  <section class="card">
+    <h2>當日流程<span class="en">Schedule</span></h2>
+    <svg class="sprig"><use href="#sprig"/></svg>
+    <ol class="flow">
+      <li><time>11:00</time><span>迎賓酒會・開放入場<small>場外有迷你酒吧，邊喝邊等開席</small></span></li>
+      <li><time>12:00</time><span>婚宴準時開始</span></li>
+    </ol>
+    <svg class="sprig"><use href="#sprig"/></svg>
+    <p class="venue-name" style="font-size:16px">服裝</p>
+    <p class="muted" style="font-size:14px">不限，穿得舒服自在就好</p>
+  </section>
+
+  <!-- 出席回覆 -->
+  <section class="card" id="rsvp">
+    <h2>出席回覆<span class="en">R.S.V.P.</span></h2>
+    <svg class="sprig"><use href="#sprig"/></svg>
+    <p class="rsvp-note">為了安排座位，請告訴我們<br>出席人數與用餐需求</p>
+    <a class="btn solid" id="rsvp-link" href="#" target="_blank" rel="noopener">填寫出席回覆</a>
+    <p class="deadline">請於 2027 年 1 月 28 日前回覆</p>
+    <p class="todo" id="rsvp-todo" hidden>（預覽版：回覆表單連結尚未設定）</p>
+  </section>
+
+  <footer>
+    <span class="heart">with love</span>
+    期待與您共享這一天
+  </footer>
+</main>
+
+<script>
+// 改這裡就好：日期、地點、表單連結
+var EVENT = {
+  title: "Morris & Audrey 婚宴",
+  start: new Date(2027, 2, 13, 12, 0),   // 婚宴開始；月份從 0 起算：2 = 三月
+  end:   new Date(2027, 2, 13, 14, 30),
+  place: "台中林酒店，台中市西屯區朝富路99號",
+  rsvpUrl: ""                            // 貼上 Google 表單網址
+};
+
+(function(){
+  var d = EVENT.start;
+  var wk = "日一二三四五六";
+  var zhNum = ["","一","二","三","四","五","六","七","八","九","十","十一","十二"];
+  var pad = function(n){ return String(n).padStart(2,"0"); };
+
+  document.getElementById("cover-date").textContent = d.getFullYear()+" . "+pad(d.getMonth()+1)+" . "+pad(d.getDate());
+  document.getElementById("weekday").textContent = "星期"+wk[d.getDay()];
+  document.getElementById("day-num").textContent = d.getDate();
+  document.getElementById("month-zh").textContent = zhNum[d.getMonth()+1]+"月";
+  document.getElementById("ym").textContent = d.getFullYear();
+
+  // 農曆
+  try {
+    var parts = new Intl.DateTimeFormat("zh-TW-u-ca-chinese",{year:"numeric",month:"long",day:"numeric"}).formatToParts(d);
+    var get = function(t){ var p = parts.find(function(x){return x.type===t;}); return p ? p.value : ""; };
+    var n = parseInt(get("day"),10);
+    var ten = ["初","十","廿","三"], one = ["十","一","二","三","四","五","六","七","八","九"];
+    var dayZh = n===10 ? "初十" : n===20 ? "二十" : n===30 ? "三十" : ten[Math.floor(n/10)] + one[n%10];
+    if (get("yearName")) document.getElementById("lunar").textContent = "農曆"+get("yearName")+"年"+get("month")+dayZh;
+  } catch(e) {}
+
+  // 月曆（週一開頭）
+  var cal = document.getElementById("cal");
+  var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  document.getElementById("cal-title").textContent = months[d.getMonth()]+" "+d.getFullYear();
+  var html = "一二三四五六日".split("").map(function(c){return '<span class="h">'+c+'</span>';}).join("");
+  var first = (new Date(d.getFullYear(), d.getMonth(), 1).getDay()+6)%7;
+  var days = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+  for (var i=0;i<first;i++) html += "<span></span>";
+  for (var k=1;k<=days;k++) html += k===d.getDate() ? '<span class="on"><i>'+k+'</i></span>' : "<span>"+k+"</span>";
+  cal.innerHTML = html;
+
+  // 倒數
+  var els = ["d","h","m","s"].map(function(x){return document.getElementById("cd-"+x);});
+  function tick(){
+    var ms = Math.max(0, EVENT.start - new Date());
+    var s = Math.floor(ms/1000);
+    var v = [Math.floor(s/86400), Math.floor(s%86400/3600), Math.floor(s%3600/60), s%60];
+    els.forEach(function(el,i){ el.textContent = i ? pad(v[i]) : v[i]; });
+  }
+  tick(); setInterval(tick, 1000);
+
+  // 連結
+  var fmt = function(t){ return t.getFullYear()+pad(t.getMonth()+1)+pad(t.getDate())+"T"+pad(t.getHours())+pad(t.getMinutes())+"00"; };
+  document.getElementById("gcal").href = "https://calendar.google.com/calendar/render?action=TEMPLATE"
+    + "&text="+encodeURIComponent(EVENT.title)
+    + "&dates="+fmt(EVENT.start)+"/"+fmt(EVENT.end)
+    + "&ctz=Asia/Taipei"
+    + "&location="+encodeURIComponent(EVENT.place);
+  document.getElementById("map").href = "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(EVENT.place);
+
+  var r = document.getElementById("rsvp-link");
+  if (EVENT.rsvpUrl) r.href = EVENT.rsvpUrl;
+  else { r.removeAttribute("href"); r.setAttribute("aria-disabled","true"); r.style.opacity=".55"; document.getElementById("rsvp-todo").hidden = false; }
+
+  // 複製地址
+  document.getElementById("copy-addr").addEventListener("click", function(){
+    var btn = this, text = document.getElementById("addr").textContent;
+    var done = function(){ btn.textContent = "已複製"; setTimeout(function(){ btn.textContent = "複製地址"; }, 1600); };
+    var fallback = function(){ var sel = getSelection(), rg = document.createRange(); rg.selectNodeContents(document.getElementById("addr")); sel.removeAllRanges(); sel.addRange(rg); btn.textContent = "已選取，請手動複製"; };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch(e){ fallback(); }
+  });
+})();
+</script>
+
+</html>
