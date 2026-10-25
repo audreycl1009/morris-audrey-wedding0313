@@ -208,6 +208,25 @@ h2{font-weight:400;font-size:clamp(26px,5vw,34px);letter-spacing:.35em;margin:4p
 footer{padding:64px var(--gutter-r) calc(48px + env(safe-area-inset-bottom, 0px)) var(--gutter);text-align:center;background:var(--paper)}
 footer .script{font-family:var(--f-script);font-size:48px;color:var(--wine);line-height:1.1}
 footer p{font-family:var(--f-latin);letter-spacing:.35em;color:var(--muted);font-size:14px;margin-top:6px}
+/* ---------- music ---------- */
+.music{
+  position:fixed;z-index:30;
+  right:calc(16px + env(safe-area-inset-right, 0px));bottom:calc(16px + env(safe-area-inset-bottom, 0px));
+  width:48px;height:48px;border-radius:50%;border:1px solid var(--gold);cursor:pointer;
+  background:rgba(90,17,27,.88);color:var(--gold-soft);display:grid;place-items:center;
+  box-shadow:0 6px 20px -8px rgba(40,6,12,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.music svg{width:22px;height:22px}
+.music:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.music .off{display:none}
+.music[aria-pressed="false"] .on{display:none}
+.music[aria-pressed="false"] .off{display:block}
+@media (prefers-reduced-motion:no-preference){
+  .music[aria-pressed="true"] svg{animation:spin 6s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+}
+.credit{font-family:var(--f-zh)!important;letter-spacing:.05em!important;font-size:11px!important;margin-top:18px!important;opacity:.75}
+.credit a{color:inherit}
 </style>
 </head>
 <body>
@@ -368,7 +387,14 @@ footer p{font-family:var(--f-latin);letter-spacing:.35em;color:var(--muted);font
 <footer>
   <div class="script">Morris &amp; Audrey</div>
   <p>2027 . 03 . 13</p>
+  <p class="credit">背景音樂：Canon in D Major — Kevin MacLeod（<a href="https://incompetech.com" target="_blank" rel="noopener">incompetech.com</a>），<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a></p>
 </footer>
+
+<audio id="bgm" src="music/canon.m4a" loop preload="none"></audio>
+<button class="music" id="music" type="button" aria-pressed="false" aria-label="播放背景音樂">
+  <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
+  <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path d="M3 3l18 18"/></svg>
+</button>
 
 <dialog class="lightbox" id="lb" aria-label="照片檢視">
   <div class="stage"><img id="lb-img" alt=""></div>
@@ -447,6 +473,21 @@ var PHOTOS = ["p1","p3","p4","p5","p6","p8","p9","p2","p7"];
   var x0 = null;
   lb.addEventListener("touchstart", function(e){ x0 = e.touches[0].clientX; }, {passive:true});
   lb.addEventListener("touchend", function(e){ if (x0===null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx)>40) show(cur + (dx<0?1:-1)); x0 = null; });
+
+  // 背景音樂：瀏覽器不允許自動播放，賓客第一次點擊頁面時開始；按右下角按鈕可開關
+  var bgm = document.getElementById("bgm"), mbtn = document.getElementById("music"), touched = false;
+  bgm.volume = .55;
+  function setMusic(on){
+    if (on) bgm.play().then(function(){ mbtn.setAttribute("aria-pressed","true"); mbtn.setAttribute("aria-label","暫停背景音樂"); }, function(){});
+    else { bgm.pause(); mbtn.setAttribute("aria-pressed","false"); mbtn.setAttribute("aria-label","播放背景音樂"); }
+  }
+  mbtn.addEventListener("click", function(){ touched = true; setMusic(bgm.paused); });
+  function firstTouch(e){
+    if (touched || mbtn.contains(e.target)) return;
+    touched = true; setMusic(true);
+  }
+  document.addEventListener("pointerdown", firstTouch, {once:true});
+  document.addEventListener("keydown", firstTouch, {once:true});
 
   // 導覽列：離開封面後出現
   var nav = document.getElementById("nav"), hero = document.getElementById("top");
