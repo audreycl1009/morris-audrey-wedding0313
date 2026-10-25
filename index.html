@@ -604,7 +604,7 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
     g.w = W;
     var r = g.list.map(function(p){ return RATIO[p] || 1; });
     var total = r.reduce(function(a, b){ return a + b; }, 0);
-    var targetH = W < 600 ? 230 : 330, gap = W < 860 ? 10 : 16;
+    var targetH = W < 600 ? 230 : 330, gap = parseFloat(getComputedStyle(g.el).rowGap) || 10;   // 間距跟 CSS 一致
     var k = Math.max(1, Math.min(r.length, Math.round(total * targetH / W)));
     // dp[i][j]：前 i 張分成 j 列的最小誤差
     var n = r.length, pre = [0], ideal = total / k, INF = 1e18, dp = [], cut = [];
@@ -627,7 +627,7 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
     rows.forEach(function(row){
       var div = document.createElement("div"); div.className = "g-row";
       var rs = row.map(function(){ return r[idx++]; });
-      var h = (W - gap * (row.length - 1)) / rs.reduce(function(a, b){ return a + b; }, 0);
+      var h = (W - 0.5 - gap * (row.length - 1)) / rs.reduce(function(a, b){ return a + b; }, 0);
       row.forEach(function(b, q){ b.style.width = (rs[q] * h) + "px"; b.style.height = h + "px"; div.appendChild(b); });
       g.el.appendChild(div);
     });
