@@ -142,6 +142,11 @@ h2{font-weight:400;font-size:clamp(26px,5vw,34px);letter-spacing:.35em;margin:4p
 .bigdate .num{font-family:var(--f-latin);font-weight:500;font-size:clamp(120px,24vw,180px);line-height:1;margin-bottom:10px;color:var(--ivory)}
 .bigdate .my{font-family:var(--f-latin);font-size:22px;letter-spacing:.45em;padding-left:.45em}
 .bigdate .lunar{font-size:13px;letter-spacing:.25em;color:#e6d3b4;margin-top:8px}
+.agenda-venue{text-align:center;margin:0 0 18px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.agenda-venue span{font-size:20px;font-weight:600;letter-spacing:.35em;padding-left:.35em;color:var(--ivory)}
+.agenda-venue small{font-size:13px;letter-spacing:.3em;padding-left:.3em;color:var(--gold-soft)}
+html[lang="en"] .agenda-venue span,html[lang="en"] .agenda-venue small{font-family:var(--f-latin);letter-spacing:.12em;padding-left:0}
+html[lang="en"] .agenda-venue span{font-size:24px;font-weight:500}
 .agenda{display:flex;flex-direction:column;gap:0;border-top:1px solid rgba(227,207,159,.35)}
 .agenda li{list-style:none;display:grid;grid-template-columns:96px 1fr;gap:20px;padding-block:22px;border-bottom:1px solid rgba(227,207,159,.35)}
 .agenda time{font-family:var(--f-latin);font-size:34px;font-weight:500;line-height:1;color:var(--gold-soft);font-variant-numeric:tabular-nums}
@@ -384,6 +389,7 @@ html[lang="en"] .count small{letter-spacing:.12em}
           <div class="lunar" id="lunar"></div>
         </div>
         <div class="rv">
+          <p class="agenda-venue"><span data-en="The Lin Hotel, Taichung">台中林酒店</span><small data-en="Guo Quan Hall, 3F">三樓・國全廳</small></p>
           <ul class="agenda">
             <li><time>11:00</time><div><b data-en="Welcome Drinks &amp; Seating">迎賓酒會・入場</b><span data-en="A mini bar is set up outside. Grab a drink when you arrive.">場外有迷你酒吧，來了就先喝一杯</span></div></li>
             <li><time>12:00</time><div><b data-en="Banquet Begins">婚宴準時開始</b><span data-en="Please arrive early. Parking is limited.">請提早抵達，當天車位有限</span></div></li>
