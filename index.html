@@ -564,18 +564,23 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
   gateBtn.addEventListener("click", function(){
     setMusic(true);
     gate.classList.add("opened"); document.body.classList.remove("locked");
+    if (location.hash !== "#engagement") window.scrollTo(0, 0);
   });
   gateBtn.focus({preventScroll:true});
 
   // 「觀看更多」文定照片：同一頁切換畫面，音樂不會中斷，返回鍵可回喜帖
   var epage = document.getElementById("engagement"), homeParts = [document.getElementById("top"), document.querySelector("main"), document.querySelector("footer")];
+  // 重新整理時不讓瀏覽器自動捲回舊位置（開啟喜帖後一律從最上面開始），返回時自己記住位置
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  var homeY = 0;
   function route(){
     var on = location.hash === "#engagement";
+    if (on && epage.hidden) homeY = window.scrollY;
     epage.hidden = !on;
     homeParts.forEach(function(el){ el.hidden = on; });
     if (on) { window.scrollTo(0, 0); return; }
     var target = location.hash && document.getElementById(location.hash.slice(1));
-    if (target) target.scrollIntoView();
+    if (target) target.scrollIntoView(); else window.scrollTo(0, homeY);
   }
   window.addEventListener("hashchange", route);
   route();
