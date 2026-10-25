@@ -126,13 +126,16 @@ h2{font-weight:400;font-size:clamp(26px,5vw,34px);letter-spacing:.35em;margin:4p
 .lede-zh{font-size:15px;color:var(--muted);letter-spacing:.12em;margin-top:14px}
 .families{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px;padding-top:32px;border-top:1px solid var(--line)}
 .families div{display:flex;flex-direction:column;gap:2px}
-.families .lbl{font-size:12px;letter-spacing:.3em;color:var(--muted)}
-.families .nm{font-size:17px;letter-spacing:.2em}
-.couple{display:flex;justify-content:center;align-items:center;gap:22px;margin-top:32px}
-.couple div{display:flex;flex-direction:column}
-.couple b{font-weight:600;font-size:22px;letter-spacing:.2em;color:var(--wine)}
-.couple small{font-family:var(--f-latin);font-size:15px;letter-spacing:.2em;color:var(--muted)}
-.couple .amp{font-family:var(--f-script);font-size:40px;color:var(--gold)}
+/* 字距會在最後一個字後面多留空白，置中時用同樣的 padding-left 抵銷 */
+.families .lbl{font-size:12px;letter-spacing:.3em;padding-left:.3em;color:var(--muted)}
+.families .nm{font-size:17px;letter-spacing:.2em;padding-left:.2em}
+/* 新人名字跟上面父母用同樣的左右兩欄，名字中心對齊各自的父母；& 固定在正中間 */
+.couple{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px;position:relative}
+.couple div{display:flex;flex-direction:column;align-items:center}
+.couple b{font-weight:600;font-size:22px;letter-spacing:.2em;padding-left:.2em;color:var(--wine);white-space:nowrap}
+.couple small{font-family:var(--f-latin);font-size:15px;letter-spacing:.2em;padding-left:.2em;color:var(--muted)}
+.couple .amp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--f-script);font-size:40px;line-height:1;color:var(--gold)}
+html[lang="en"] .families .lbl{padding-left:.06em}
 
 /* ---------- when ---------- */
 .when{display:grid;gap:48px;align-items:center}
