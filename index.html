@@ -565,7 +565,7 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
   gateBtn.addEventListener("click", function(){
     setMusic(true);
     gate.classList.add("opened"); document.body.classList.remove("locked");
-    if (location.hash !== "#engagement") window.scrollTo(0, 0);
+    window.scrollTo({top: 0, behavior: "instant"});
   });
   gateBtn.focus({preventScroll:true});
 
@@ -579,11 +579,13 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
     if (on && epage.hidden) homeY = window.scrollY;
     epage.hidden = !on;
     homeParts.forEach(function(el){ el.hidden = on; });
-    if (on) { window.scrollTo(0, 0); return; }
+    if (on) { window.scrollTo({top: 0, behavior: "instant"}); return; }
     var target = location.hash && document.getElementById(location.hash.slice(1));
-    if (target) target.scrollIntoView(); else window.scrollTo(0, homeY);
+    if (target) target.scrollIntoView(); else window.scrollTo({top: homeY, behavior: "instant"});
   }
   window.addEventListener("hashchange", route);
+  // 每次載入（含重新整理）都從喜帖首頁開始：清掉網址上的 #engagement、#rsvp 等
+  if (location.hash) history.replaceState(null, "", location.pathname + location.search);
   route();
 
   // 導覽列：離開封面後出現
