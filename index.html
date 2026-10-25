@@ -227,9 +227,47 @@ footer p{font-family:var(--f-latin);letter-spacing:.35em;color:var(--muted);font
 }
 .credit{font-family:var(--f-zh)!important;letter-spacing:.05em!important;font-size:11px!important;margin-top:18px!important;opacity:.75}
 .credit a{color:inherit}
+/* ---------- opening gate ---------- */
+.gate{
+  position:fixed;inset:0;z-index:50;background:var(--wine);color:var(--ivory);
+  display:grid;place-items:center;text-align:center;
+  padding:calc(24px + env(safe-area-inset-top, 0px)) var(--gutter-r) calc(24px + env(safe-area-inset-bottom, 0px)) var(--gutter);
+  transition:opacity .9s ease, visibility 0s linear .9s;
+}
+.gate::before{content:"";position:absolute;inset:calc(16px + env(safe-area-inset-top, 0px)) 16px calc(16px + env(safe-area-inset-bottom, 0px));border:1px solid rgba(195,160,99,.45);pointer-events:none}
+.gate.opened{opacity:0;visibility:hidden}
+.gate-in{display:flex;flex-direction:column;align-items:center;gap:8px;max-width:420px}
+.gate-photo{width:150px;height:150px;border-radius:50%;overflow:hidden;border:1px solid var(--gold);padding:5px;margin-bottom:18px}
+.gate-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;border-radius:50%}
+.gate .script-names{font-size:clamp(46px,13vw,72px)}
+.gate-date{font-family:var(--f-latin);font-size:18px;letter-spacing:.35em;color:var(--gold-soft);margin-top:6px}
+.gate-btn{margin-top:30px;font-family:var(--f-zh);font-size:15px;letter-spacing:.35em;padding:14px 34px 14px 40px;border-radius:999px;border:1px solid var(--gold);background:var(--gold);color:var(--wine);cursor:pointer;transition:background .25s}
+.gate-btn:hover{background:var(--gold-soft)}
+.gate-btn:focus-visible{outline:2px solid var(--gold-soft);outline-offset:4px}
+.gate-hint{font-size:12px;letter-spacing:.2em;color:#e6d3b4;opacity:.8;margin-top:10px}
+@media (prefers-reduced-motion:no-preference){
+  .gate-in > *{animation:gatein 1.1s cubic-bezier(.2,.7,.2,1) both}
+  .gate-in > *:nth-child(2){animation-delay:.15s}
+  .gate-in > *:nth-child(3){animation-delay:.3s}
+  .gate-in > *:nth-child(4){animation-delay:.45s}
+  .gate-in > *:nth-child(5){animation-delay:.6s}
+  @keyframes gatein{from{transform:translateY(14px)}to{transform:none}}
+}
+body.locked{overflow:hidden}
 </style>
 </head>
-<body>
+<body class="locked">
+
+<div class="gate" id="gate" role="dialog" aria-label="開啟喜帖">
+  <div class="gate-in">
+    <div class="gate-photo"><img src="photos/cover.jpg" alt=""></div>
+    <div class="kicker">The Wedding of</div>
+    <div class="script-names" style="margin:0">Morris<span class="amp">&amp;</span>Audrey</div>
+    <div class="gate-date">2027 . 03 . 13</div>
+    <button class="gate-btn" type="button" id="gate-btn">開啟喜帖</button>
+    <p class="gate-hint">♪ 開啟後將播放背景音樂</p>
+  </div>
+</div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="orn" viewBox="0 0 120 16">
@@ -268,7 +306,7 @@ footer p{font-family:var(--f-latin);letter-spacing:.35em;color:var(--muted);font
   <!-- 邀請 -->
   <section class="band-ivory" id="story">
     <div class="inner intro">
-      <div class="intro-photo rv"><img src="photos/p2.jpg" alt="Morris 與 Audrey" loading="lazy"></div>
+      <div class="intro-photo rv"><img src="photos/intro.jpg" alt="Morris 與 Audrey" loading="lazy"></div>
       <div class="intro-text rv">
         <div class="eyebrow">Save the date</div>
         <h2>誠摯邀請</h2>
@@ -369,7 +407,7 @@ footer p{font-family:var(--f-latin);letter-spacing:.35em;color:var(--muted);font
 
   <!-- 回覆 -->
   <section class="band-wine rsvp" id="rsvp">
-    <div class="bg" aria-hidden="true"><img src="photos/p7.jpg" alt="" loading="lazy"></div>
+    <div class="bg" aria-hidden="true"><img src="photos/rsvp.jpg" alt="" loading="lazy"></div>
     <div class="inner narrow">
       <div class="head rv" style="margin-bottom:24px">
         <div class="eyebrow">R.S.V.P.</div>
@@ -412,7 +450,7 @@ var EVENT = {
   place: "台中林酒店，台中市西屯區朝富路99號",
   rsvpUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdC5sszMY3VZCIumKLpH-BB_lg_zdZ5-igS2USP22CsFNPF3w/viewform"                            // 貼上 Google 表單網址
 };
-var PHOTOS = ["p1","p3","p4","p5","p6","p8","p9","p2","p7"];
+var PHOTOS = ["g01","g02","g03","g04","g05","g06","g07","g08","g09","g10","g11","g12","g13","g14"];
 
 (function(){
   var d = EVENT.start, pad = function(n){ return String(n).padStart(2,"0"); };
@@ -456,7 +494,7 @@ var PHOTOS = ["p1","p3","p4","p5","p6","p8","p9","p2","p7"];
   PHOTOS.forEach(function(p,i){
     var b = document.createElement("button");
     b.className = "g-item"; b.type = "button"; b.setAttribute("aria-label","放大第 "+(i+1)+" 張照片");
-    b.innerHTML = '<img src="photos/'+p+'.jpg" alt="婚紗照 '+(i+1)+'" loading="lazy" width="800" height="1200">';
+    b.innerHTML = '<img src="photos/'+p+'.jpg" alt="婚紗照 '+(i+1)+'" loading="lazy">';
     b.addEventListener("click", function(){ show(i); });
     gal.appendChild(b);
   });
@@ -474,20 +512,21 @@ var PHOTOS = ["p1","p3","p4","p5","p6","p8","p9","p2","p7"];
   lb.addEventListener("touchstart", function(e){ x0 = e.touches[0].clientX; }, {passive:true});
   lb.addEventListener("touchend", function(e){ if (x0===null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx)>40) show(cur + (dx<0?1:-1)); x0 = null; });
 
-  // 背景音樂：瀏覽器不允許自動播放，賓客第一次點擊頁面時開始；按右下角按鈕可開關
-  var bgm = document.getElementById("bgm"), mbtn = document.getElementById("music"), touched = false;
+  // 背景音樂：按右下角按鈕可開關
+  var bgm = document.getElementById("bgm"), mbtn = document.getElementById("music");
   bgm.volume = .55;
   function setMusic(on){
     if (on) bgm.play().then(function(){ mbtn.setAttribute("aria-pressed","true"); mbtn.setAttribute("aria-label","暫停背景音樂"); }, function(){});
     else { bgm.pause(); mbtn.setAttribute("aria-pressed","false"); mbtn.setAttribute("aria-label","播放背景音樂"); }
   }
-  mbtn.addEventListener("click", function(){ touched = true; setMusic(bgm.paused); });
-  function firstTouch(e){
-    if (touched || mbtn.contains(e.target)) return;
-    touched = true; setMusic(true);
-  }
-  document.addEventListener("pointerdown", firstTouch, {once:true});
-  document.addEventListener("keydown", firstTouch, {once:true});
+  mbtn.addEventListener("click", function(){ setMusic(bgm.paused); });
+  // 開啟喜帖：點擊同時播放音樂（瀏覽器規定聲音必須由賓客的點擊啟動）
+  var gate = document.getElementById("gate"), gateBtn = document.getElementById("gate-btn");
+  gateBtn.addEventListener("click", function(){
+    setMusic(true);
+    gate.classList.add("opened"); document.body.classList.remove("locked");
+  });
+  gateBtn.focus({preventScroll:true});
 
   // 導覽列：離開封面後出現
   var nav = document.getElementById("nav"), hero = document.getElementById("top");
