@@ -595,32 +595,29 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
       items.push(b);
     });
     galleries.push({el: el, items: items, list: list, w: 0});
+    if (ro) ro.observe(el);
     layout(galleries[galleries.length - 1]);
   }
-  // 把照片依序分成 k 列，讓每列的長寬比總和盡量平均（線性分割），每列再用 flex 撐滿寬度
+  // 把照片依序分列：每列高度盡量接近理想高度，直式照片不單獨成一列（動態規劃，列數自動決定）
   function layout(g){
     var W = g.el.clientWidth;
     if (!W || W === g.w) return;
     g.w = W;
     var r = g.list.map(function(p){ return RATIO[p] || 1; });
-    var total = r.reduce(function(a, b){ return a + b; }, 0);
     var targetH = W < 600 ? 230 : 330, gap = parseFloat(getComputedStyle(g.el).rowGap) || 10;   // 間距跟 CSS 一致
-    var k = Math.max(1, Math.min(r.length, Math.round(total * targetH / W)));
-    // dp[i][j]：前 i 張分成 j 列的最小誤差
-    var n = r.length, pre = [0], ideal = total / k, INF = 1e18, dp = [], cut = [];
+    var n = r.length, pre = [0], best = [0], from = [0];
     for (var i = 0; i < n; i++) pre.push(pre[i] + r[i]);
-    for (i = 0; i <= n; i++){ dp.push(new Array(k + 1).fill(INF)); cut.push(new Array(k + 1).fill(0)); }
-    dp[0][0] = 0;
-    for (var j = 1; j <= k; j++)
-      for (i = j; i <= n; i++)
-        for (var m = j - 1; m < i; m++){
-          var sum = pre[i] - pre[m], d = sum - ideal;
-          // 直式照片不單獨成一列（手機上會太高）
-          var c = dp[m][j - 1] + d * d + (i - m === 1 && sum < 1 ? 100 : 0);
-          if (c < dp[i][j]) { dp[i][j] = c; cut[i][j] = m; }
-        }
+    for (i = 1; i <= n; i++){
+      best[i] = Infinity;
+      for (var m = Math.max(0, i - 6); m < i; m++){
+        var cnt = i - m, sum = pre[i] - pre[m], h = (W - gap * (cnt - 1)) / sum;
+        var c = best[m] + Math.pow((h - targetH) / targetH, 2);
+        if (cnt === 1 && sum < 1) c += 10;   // 直式照片單獨一列在手機上會太高
+        if (c < best[i]) { best[i] = c; from[i] = m; }
+      }
+    }
     var rows = [], end = n;
-    for (j = k; j >= 1; j--){ var start = cut[end][j]; rows.unshift(g.items.slice(start, end)); end = start; }
+    while (end > 0){ rows.unshift(g.items.slice(from[end], end)); end = from[end]; }
     g.el.textContent = "";
     // 每列高度 = (可用寬度 − 間距) ÷ 長寬比總和，寬度依比例分配，剛好撐滿
     var idx = 0;
@@ -632,8 +629,9 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
       g.el.appendChild(div);
     });
   }
-  var rt;
-  window.addEventListener("resize", function(){ clearTimeout(rt); rt = setTimeout(function(){ galleries.forEach(layout); }, 150); });
+  // 寬度一變（旋轉手機、出現捲軸、調整視窗）就重新排
+  var ro = "ResizeObserver" in window ? new ResizeObserver(function(){ galleries.forEach(layout); }) : null;
+  if (!ro) window.addEventListener("resize", function(){ galleries.forEach(layout); });
   fill(document.getElementById("gal"), PHOTOS, "婚紗照");
   fill(document.getElementById("gal-engage"), ENGAGE, "文定照");
   fill(document.getElementById("gal-full"), ENGAGE_ALL, "文定照");
