@@ -270,6 +270,28 @@ footer p{font-family:var(--f-latin);letter-spacing:.35em;color:var(--muted);font
   @keyframes gatein{from{transform:translateY(14px)}to{transform:none}}
 }
 body.locked{overflow:hidden}
+.gate-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
+.gate-btns .gate-btn{margin-top:0;min-width:168px}
+.gate-btn.alt{background:transparent;color:var(--gold-soft)}
+.gate-btn.alt:hover{background:rgba(195,160,99,.15)}
+.gate-btn[lang="en"]{font-family:var(--f-latin);font-size:17px;letter-spacing:.12em;padding:12px 26px}
+.lang-btn{
+  position:fixed;z-index:30;
+  right:calc(16px + env(safe-area-inset-right, 0px));bottom:calc(74px + env(safe-area-inset-bottom, 0px));
+  width:48px;height:48px;border-radius:50%;border:1px solid var(--gold);cursor:pointer;
+  background:rgba(253,249,243,.92);color:var(--wine);font-family:var(--f-latin);font-size:16px;font-weight:600;letter-spacing:.05em;
+  box-shadow:0 6px 20px -8px rgba(40,6,12,.4);
+}
+.lang-btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+html[lang="en"] .nav ul{letter-spacing:.06em;font-family:var(--f-latin);font-size:16px}
+html[lang="en"] .nav .cta{font-family:var(--f-latin);font-size:15px;letter-spacing:.1em}
+html[lang="en"] h2,html[lang="en"] .sub-head h3{font-family:var(--f-latin);letter-spacing:.12em;font-size:clamp(30px,5.4vw,40px)}
+html[lang="en"] .sub-head h3{font-size:clamp(26px,4.4vw,32px)}
+html[lang="en"] .lede-zh,html[lang="en"] .agenda b,html[lang="en"] .agenda span,html[lang="en"] .note b,html[lang="en"] .note p,html[lang="en"] .rsvp p.sub,html[lang="en"] .families .lbl,html[lang="en"] .venue-card h3,html[lang="en"] .floor,html[lang="en"] .addr,html[lang="en"] .zh-names,html[lang="en"] .hero-place,html[lang="en"] .btn,html[lang="en"] .back,html[lang="en"] .deadline{font-family:var(--f-latin);letter-spacing:.06em}
+html[lang="en"] .lede-zh,html[lang="en"] .note p,html[lang="en"] .rsvp p.sub,html[lang="en"] .agenda span{font-size:17px}
+html[lang="en"] .btn{font-size:16px}
+html[lang="en"] .count small{letter-spacing:.12em}
+@media (max-width:720px){html[lang="en"] .nav ul{gap:10px;font-size:14px;letter-spacing:.02em}}
 </style>
 </head>
 <body class="locked">
@@ -280,8 +302,11 @@ body.locked{overflow:hidden}
     <div class="kicker">The Wedding of</div>
     <div class="script-names" style="margin:0">Morris<span class="amp">&amp;</span>Audrey</div>
     <div class="gate-date">2027 . 03 . 13</div>
-    <button class="gate-btn" type="button" id="gate-btn">開啟喜帖</button>
-    <p class="gate-hint">♪ 開啟後將播放背景音樂</p>
+    <div class="gate-btns">
+      <button class="gate-btn" type="button" id="gate-btn" lang="zh-Hant">開啟喜帖</button>
+      <button class="gate-btn alt" type="button" id="gate-btn-en" lang="en">Open in English</button>
+    </div>
+    <p class="gate-hint">♪ 開啟後將播放背景音樂・Music will play</p>
   </div>
 </div>
 
@@ -297,13 +322,13 @@ body.locked{overflow:hidden}
   <div class="inner">
     <a class="mark" href="#top">M &amp; A</a>
     <ul>
-      <li><a href="#story">邀請</a></li>
-      <li><a href="#when">時間</a></li>
-      <li><a href="#gallery">相簿</a></li>
-      <li><a href="#engage-home">文定</a></li>
-      <li><a href="#venue">交通</a></li>
+      <li data-en="Invite"><a href="#story">邀請</a></li>
+      <li data-en="Date"><a href="#when">時間</a></li>
+      <li data-en="Photos"><a href="#gallery">相簿</a></li>
+      <li data-en="Engagement"><a href="#engage-home">文定</a></li>
+      <li data-en="Venue"><a href="#venue">交通</a></li>
     </ul>
-    <a class="cta" href="#rsvp">出席回覆</a>
+    <a class="cta" href="#rsvp" data-en="RSVP">出席回覆</a>
   </div>
 </nav>
 
@@ -312,9 +337,9 @@ body.locked{overflow:hidden}
   <div class="hero-text">
     <div class="kicker">We're getting married</div>
     <h1 class="script-names">Morris<span class="amp">&amp;</span>Audrey</h1>
-    <div class="zh-names">胡俊睿・張廖軒曲</div>
+    <div class="zh-names" data-en="Morris Hu・Audrey Chang Liao">胡俊睿・張廖軒曲</div>
     <div class="hero-date" id="hero-date">2027.03.13</div>
-    <div class="hero-place">台中林酒店</div>
+    <div class="hero-place" data-en="The Lin Hotel, Taichung">台中林酒店</div>
     <div class="scroll-cue" aria-hidden="true"></div>
   </div>
 </header>
@@ -326,13 +351,13 @@ body.locked{overflow:hidden}
       <div class="intro-photo rv"><img src="photos/intro.jpg" alt="Morris 與 Audrey" loading="lazy"></div>
       <div class="intro-text rv">
         <div class="eyebrow">Save the date</div>
-        <h2>誠摯邀請</h2>
+        <h2 data-en="You're Invited">誠摯邀請</h2>
         <svg class="ornament"><use href="#orn"/></svg>
         <p class="lede" style="margin-top:28px">We would love for you to celebrate with us as we begin our forever.</p>
-        <p class="lede-zh">謹詹於下列時日，為子女舉行結婚典禮<br>敬備喜筵，恭請闔第光臨</p>
+        <p class="lede-zh" data-en="Together with our families,<br>we joyfully invite you to our wedding banquet.">謹詹於下列時日，為子女舉行結婚典禮<br>敬備喜筵，恭請闔第光臨</p>
         <div class="families">
-          <div><span class="lbl">新郎父母</span><span class="nm">胡國勇</span><span class="nm">徐麗娟</span></div>
-          <div><span class="lbl">新娘父母</span><span class="nm">張廖萬山</span><span class="nm">林宜君</span></div>
+          <div><span class="lbl" data-en="Parents of the Groom">新郎父母</span><span class="nm">胡國勇</span><span class="nm">徐麗娟</span></div>
+          <div><span class="lbl" data-en="Parents of the Bride">新娘父母</span><span class="nm">張廖萬山</span><span class="nm">林宜君</span></div>
         </div>
         <div class="couple">
           <div><b>胡俊睿</b><small>Morris</small></div>
@@ -348,7 +373,7 @@ body.locked{overflow:hidden}
     <div class="inner">
       <div class="head rv">
         <div class="eyebrow">The Celebration</div>
-        <h2>婚宴時間</h2>
+        <h2 data-en="Wedding Banquet">婚宴時間</h2>
         <svg class="ornament"><use href="#orn"/></svg>
       </div>
       <div class="when">
@@ -360,16 +385,16 @@ body.locked{overflow:hidden}
         </div>
         <div class="rv">
           <ul class="agenda">
-            <li><time>11:00</time><div><b>迎賓酒會・入場</b><span>場外有迷你酒吧，來了就先喝一杯</span></div></li>
-            <li><time>12:00</time><div><b>婚宴準時開始</b><span>請提早抵達，當天車位有限</span></div></li>
+            <li><time>11:00</time><div><b data-en="Welcome Drinks &amp; Seating">迎賓酒會・入場</b><span data-en="A mini bar is set up outside. Grab a drink when you arrive.">場外有迷你酒吧，來了就先喝一杯</span></div></li>
+            <li><time>12:00</time><div><b data-en="Banquet Begins">婚宴準時開始</b><span data-en="Please arrive early. Parking is limited.">請提早抵達，當天車位有限</span></div></li>
           </ul>
           <div class="count" aria-label="距離婚宴倒數">
-            <div><b id="cd-d">--</b><small>天</small></div>
-            <div><b id="cd-h">--</b><small>時</small></div>
-            <div><b id="cd-m">--</b><small>分</small></div>
-            <div><b id="cd-s">--</b><small>秒</small></div>
+            <div><b id="cd-d">--</b><small data-en="Days">天</small></div>
+            <div><b id="cd-h">--</b><small data-en="Hrs">時</small></div>
+            <div><b id="cd-m">--</b><small data-en="Min">分</small></div>
+            <div><b id="cd-s">--</b><small data-en="Sec">秒</small></div>
           </div>
-          <div class="btn-row"><a class="btn" id="gcal" href="#" target="_blank" rel="noopener">加入 Google 行事曆</a></div>
+          <div class="btn-row"><a class="btn" id="gcal" href="#" target="_blank" rel="noopener" data-en="Add to Google Calendar">加入 Google 行事曆</a></div>
         </div>
       </div>
     </div>
@@ -380,17 +405,17 @@ body.locked{overflow:hidden}
     <div class="inner">
       <div class="head rv">
         <div class="eyebrow">Moments</div>
-        <h2>婚紗相簿</h2>
+        <h2 data-en="Pre-wedding Photos">婚紗相簿</h2>
         <svg class="ornament"><use href="#orn"/></svg>
       </div>
       <div class="gallery" id="gal"></div>
       <div class="sub-head rv" id="engage-home">
         <div class="eyebrow">Engagement</div>
-        <h3>文定之喜</h3>
+        <h3 data-en="Engagement Ceremony">文定之喜</h3>
         <p>2026 . 06 . 27</p>
       </div>
       <div class="gallery" id="gal-engage"></div>
-      <div class="btn-row"><a class="btn" href="#engagement">觀看更多文定照片 →</a></div>
+      <div class="btn-row"><a class="btn" href="#engagement" data-en="See more engagement photos →">觀看更多文定照片 →</a></div>
     </div>
   </section>
 
@@ -399,30 +424,30 @@ body.locked{overflow:hidden}
     <div class="inner">
       <div class="head rv">
         <div class="eyebrow">Getting There</div>
-        <h2>婚宴地點</h2>
+        <h2 data-en="Venue">婚宴地點</h2>
         <svg class="ornament"><use href="#orn"/></svg>
       </div>
       <div class="venue">
         <div class="venue-card rv">
           <div class="hall">The Lin Hotel</div>
-          <h3>台中林酒店</h3>
-          <div class="floor">三樓・國全廳</div>
-          <p class="addr" id="addr">台中市西屯區朝富路99號</p>
-          <p class="tel">飯店電話 <span>04-2255-5555</span></p>
-          <div class="btn-row"><a class="btn fill" id="map" href="#" target="_blank" rel="noopener">Google 地圖導航</a></div>
+          <h3 data-en="The Lin Hotel">台中林酒店</h3>
+          <div class="floor" data-en="Guo Quan Hall, 3F">三樓・國全廳</div>
+          <p class="addr" id="addr" data-en="No. 99, Chaofu Rd., Xitun Dist., Taichung">台中市西屯區朝富路99號</p>
+          <p class="tel"><span data-en="Tel">飯店電話</span> <span>04-2255-5555</span></p>
+          <div class="btn-row"><a class="btn fill" id="map" href="#" target="_blank" rel="noopener" data-en="Open in Google Maps">Google 地圖導航</a></div>
         </div>
         <div class="notes rv">
           <div class="note">
             <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1"><circle cx="22" cy="22" r="21"/><path d="M14 27h16M15 27l2-7h10l2 7M16 30v-3M28 30v-3"/><circle cx="17.5" cy="27" r=".6" fill="currentColor"/><circle cx="26.5" cy="27" r=".6" fill="currentColor"/></svg>
-            <div><b>停車</b><p>當天賓客多、車位有限，建議提早抵達或共乘。</p></div>
+            <div><b data-en="Parking">停車</b><p data-en="Parking is limited on the day, so please arrive early or carpool.">當天賓客多、車位有限，建議提早抵達或共乘。</p></div>
           </div>
           <div class="note">
             <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1"><circle cx="22" cy="22" r="21"/><path d="M16 14h12l-6 9z M22 23v8M18 31h8"/></svg>
-            <div><b>迷你酒吧</b><p>11:00 起場外有迷你酒吧，早點到可以先小酌聊天。</p></div>
+            <div><b data-en="Mini Bar">迷你酒吧</b><p data-en="From 11:00 there's a mini bar outside the hall. Come early for a drink and a chat.">11:00 起場外有迷你酒吧，早點到可以先小酌聊天。</p></div>
           </div>
           <div class="note">
             <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1"><circle cx="22" cy="22" r="21"/><path d="M18 13l-5 4 3 4 2-1v11h8V20l2 1 3-4-5-4c-1 2-2.5 3-4 3s-3-1-4-3z"/></svg>
-            <div><b>服裝</b><p>不限，穿得舒服自在就好。</p></div>
+            <div><b data-en="Dress Code">服裝</b><p data-en="No dress code. Wear whatever feels comfortable.">不限，穿得舒服自在就好。</p></div>
           </div>
         </div>
       </div>
@@ -435,12 +460,12 @@ body.locked{overflow:hidden}
     <div class="inner narrow">
       <div class="head rv" style="margin-bottom:24px">
         <div class="eyebrow">R.S.V.P.</div>
-        <h2>出席回覆</h2>
+        <h2 data-en="Will You Join Us?">出席回覆</h2>
         <svg class="ornament"><use href="#orn"/></svg>
       </div>
-      <p class="sub">為了安排座位與餐點，請告訴我們您是否出席</p>
-      <div class="btn-row"><a class="btn fill" id="rsvp-link" href="#" target="_blank" rel="noopener">填寫出席回覆</a></div>
-      <div class="deadline">請於 <span class="num">2027.01.28</span> 前回覆</div>
+      <p class="sub" data-en="Please let us know if you can come, so we can plan seating and meals.">為了安排座位與餐點，請告訴我們您是否出席</p>
+      <div class="btn-row"><a class="btn fill" id="rsvp-link" href="#" target="_blank" rel="noopener" data-en="RSVP Now">填寫出席回覆</a></div>
+      <div class="deadline"><span data-en="Kindly reply by">請於</span> <span class="num">2027.01.28</span> <span data-en="">前回覆</span></div>
       <p class="todo" id="rsvp-todo" hidden>回覆表單即將開放</p>
     </div>
   </section>
@@ -448,25 +473,26 @@ body.locked{overflow:hidden}
 
 <div class="epage" id="engagement" hidden>
   <div class="inner">
-    <a class="back" href="#engage-home">← 回到喜帖</a>
+    <a class="back" href="#engage-home" data-en="← Back to invitation">← 回到喜帖</a>
     <div class="head">
       <div class="eyebrow">Engagement</div>
-      <h2>文定之喜</h2>
+      <h2 data-en="Engagement Ceremony">文定之喜</h2>
       <svg class="ornament"><use href="#orn"/></svg>
       <p class="epage-date">2026 . 06 . 27</p>
     </div>
     <div class="gallery" id="gal-full"></div>
-    <div class="btn-row"><a class="btn fill" href="#engage-home">回到喜帖</a></div>
+    <div class="btn-row"><a class="btn fill" href="#engage-home" data-en="Back to invitation">回到喜帖</a></div>
   </div>
 </div>
 
 <footer>
   <div class="script">Morris &amp; Audrey</div>
   <p>2027 . 03 . 13</p>
-  <p class="credit">背景音樂：Canon in D Major — Kevin MacLeod（<a href="https://incompetech.com" target="_blank" rel="noopener">incompetech.com</a>），<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a></p>
+  <p class="credit"><span data-en="Music:">背景音樂：</span>Canon in D Major — Kevin MacLeod（<a href="https://incompetech.com" target="_blank" rel="noopener">incompetech.com</a>），<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a></p>
 </footer>
 
 <audio id="bgm" src="music/canon.m4a" loop preload="none"></audio>
+<button class="lang-btn" id="lang-btn" type="button" aria-label="Switch to English">EN</button>
 <button class="music" id="music" type="button" aria-pressed="false" aria-label="播放背景音樂">
   <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>
   <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/><path d="M3 3l18 18"/></svg>
@@ -496,6 +522,24 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
   var d = EVENT.start, pad = function(n){ return String(n).padStart(2,"0"); };
   var months = ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
   document.getElementById("hero-date").textContent = d.getFullYear()+"."+pad(d.getMonth()+1)+"."+pad(d.getDate());
+  // 語言切換：有 data-en 的元素在英文模式換成英文；中文原文存在 data-zh
+  var lang = "zh", savedLang = null;
+  try { savedLang = localStorage.getItem("lang"); } catch(e) {}
+  function T(zh, en){ return lang === "en" ? en : zh; }
+  var DAYS_EN = ["SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"];
+  function setLang(l){
+    lang = l;
+    document.documentElement.lang = l === "en" ? "en" : "zh-Hant";
+    document.querySelectorAll("[data-en]").forEach(function(el){
+      if (el.dataset.zh === undefined) el.dataset.zh = el.innerHTML;
+      el.innerHTML = l === "en" ? el.dataset.en : el.dataset.zh;
+    });
+    document.getElementById("wk").textContent = T("星期"+"日一二三四五六"[d.getDay()], DAYS_EN[d.getDay()]);
+    document.getElementById("lunar").hidden = l === "en";
+    var lb = document.getElementById("lang-btn");
+    lb.textContent = T("EN","中"); lb.setAttribute("aria-label", T("Switch to English","切換為繁體中文"));
+    try { localStorage.setItem("lang", l); } catch(e) {}
+  }
   document.getElementById("wk").textContent = "星期"+"日一二三四五六"[d.getDay()];
   document.getElementById("num").textContent = d.getDate();
   document.getElementById("my").textContent = months[d.getMonth()]+" "+d.getFullYear();
@@ -562,18 +606,24 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
   var bgm = document.getElementById("bgm"), mbtn = document.getElementById("music");
   bgm.volume = .55;
   function setMusic(on){
-    if (on) bgm.play().then(function(){ mbtn.setAttribute("aria-pressed","true"); mbtn.setAttribute("aria-label","暫停背景音樂"); }, function(){});
-    else { bgm.pause(); mbtn.setAttribute("aria-pressed","false"); mbtn.setAttribute("aria-label","播放背景音樂"); }
+    if (on) bgm.play().then(function(){ mbtn.setAttribute("aria-pressed","true"); mbtn.setAttribute("aria-label", T("暫停背景音樂","Pause music")); }, function(){});
+    else { bgm.pause(); mbtn.setAttribute("aria-pressed","false"); mbtn.setAttribute("aria-label", T("播放背景音樂","Play music")); }
   }
   mbtn.addEventListener("click", function(){ setMusic(bgm.paused); });
   // 開啟喜帖：點擊同時播放音樂（瀏覽器規定聲音必須由賓客的點擊啟動）
-  var gate = document.getElementById("gate"), gateBtn = document.getElementById("gate-btn");
-  gateBtn.addEventListener("click", function(){
-    setMusic(true);
+  var gate = document.getElementById("gate"), gateZh = document.getElementById("gate-btn"), gateEn = document.getElementById("gate-btn-en");
+  function openGate(l){
+    setLang(l); setMusic(true);
     gate.classList.add("opened"); document.body.classList.remove("locked");
     window.scrollTo({top: 0, behavior: "instant"});
-  });
-  gateBtn.focus({preventScroll:true});
+  }
+  gateZh.addEventListener("click", function(){ openGate("zh"); });
+  gateEn.addEventListener("click", function(){ openGate("en"); });
+  // 依上次的選擇或裝置語言，把比較可能的那顆做成實心按鈕
+  var guess = savedLang || ((navigator.language || "").toLowerCase().indexOf("zh") === 0 ? "zh" : "en");
+  if (guess === "en") { gateZh.classList.add("alt"); gateEn.classList.remove("alt"); gateEn.parentNode.insertBefore(gateEn, gateZh); }
+  (guess === "en" ? gateEn : gateZh).focus({preventScroll:true});
+  document.getElementById("lang-btn").addEventListener("click", function(){ setLang(lang === "en" ? "zh" : "en"); });
 
   // 「觀看更多」文定照片：同一頁切換畫面，音樂不會中斷，返回鍵可回喜帖
   var epage = document.getElementById("engagement"), homeParts = [document.getElementById("top"), document.querySelector("main"), document.querySelector("footer")];
