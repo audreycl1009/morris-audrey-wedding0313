@@ -206,6 +206,19 @@ html[lang="en"] .agenda-venue span{font-size:24px;font-weight:500}
 .sub-head h3{font-weight:400;font-size:clamp(22px,4vw,28px);letter-spacing:.35em;padding-left:.35em;color:var(--wine);margin:2px 0 0}
 .sub-head p{font-family:var(--f-latin);letter-spacing:.35em;color:var(--muted);font-size:15px}
 .sub-head::before{content:"";width:1px;height:48px;background:linear-gradient(transparent,var(--gold));margin-bottom:22px}
+/* 首頁相簿：各一張封面，點進去看整本 */
+.albums{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:860px;margin:0 auto}
+@media (max-width:640px){.albums{grid-template-columns:1fr;gap:36px;max-width:420px}}
+.album{display:block;text-decoration:none;color:inherit;scroll-margin-top:72px}
+.album-photo{overflow:hidden;border-radius:2px;background:var(--paper-2)}
+.album-photo img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform .8s ease}
+.album:hover .album-photo img{transform:scale(1.04)}
+.album-cap{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:18px;text-align:center}
+.album-cap b{font-weight:400;font-size:22px;letter-spacing:.3em;padding-left:.3em;color:var(--wine)}
+.album-go{font-size:13px;letter-spacing:.2em;color:var(--muted);border-bottom:1px solid var(--gold);padding-bottom:3px;margin-top:4px}
+.album:hover .album-go{color:var(--wine)}
+html[lang="en"] .album-cap b{font-family:var(--f-latin);font-size:26px;letter-spacing:.08em;padding-left:0}
+html[lang="en"] .album-go{font-family:var(--f-latin);font-size:16px;letter-spacing:.08em}
 .epage{padding-top:calc(56px + env(safe-area-inset-top, 0px));padding-bottom:80px;min-height:100vh}
 .epage .head{margin-top:24px}
 .epage-date{font-family:var(--f-latin);letter-spacing:.35em;color:var(--muted);font-size:15px;margin-top:12px}
@@ -353,8 +366,8 @@ html[lang="en"] .count small{letter-spacing:.12em}
       <li class="dd" id="dd-photos">
         <button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-menu"><span data-en="Photos">相簿</span><svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></button>
         <ul class="dd-menu" id="dd-menu">
-          <li><a href="#gallery" data-en="Pre-wedding">婚紗照片</a></li>
-          <li><a href="#engage-home" data-en="Engagement">文定照片</a></li>
+          <li><a href="#photos" data-en="Pre-wedding">婚紗照片</a></li>
+          <li><a href="#engagement" data-en="Engagement">文定照片</a></li>
           <li><span class="soon" aria-disabled="true"><span data-en="Wedding Day">婚宴照片</span><em>Coming soon</em></span></li>
         </ul>
       </li>
@@ -438,17 +451,27 @@ html[lang="en"] .count small{letter-spacing:.12em}
     <div class="inner">
       <div class="head rv">
         <div class="eyebrow">Moments</div>
-        <h2 data-en="Pre-wedding Photos">婚紗相簿</h2>
+        <h2 data-en="Albums">相簿</h2>
         <svg class="ornament"><use href="#orn"/></svg>
       </div>
-      <div class="gallery" id="gal"></div>
-      <div class="sub-head rv" id="engage-home">
-        <div class="eyebrow">Engagement</div>
-        <h3 data-en="Engagement Ceremony">文定之喜</h3>
-        <p>2026 . 06 . 27</p>
+      <div class="albums">
+        <a class="album rv" id="album-wedding" href="#photos">
+          <div class="album-photo"><img src="photos/album-wedding.jpg" alt="婚紗照片" loading="lazy" style="object-position:50% 60%"></div>
+          <div class="album-cap">
+            <span class="eyebrow">Pre-wedding</span>
+            <b data-en="Pre-wedding Photos">婚紗照片</b>
+            <span class="album-go" data-en="View album →">觀看相簿 →</span>
+          </div>
+        </a>
+        <a class="album rv" id="engage-home" href="#engagement">
+          <div class="album-photo"><img src="photos/album-engage.jpg" alt="文定照片" loading="lazy" style="object-position:53% 50%"></div>
+          <div class="album-cap">
+            <span class="eyebrow">Engagement · 2026.06.27</span>
+            <b data-en="Engagement Ceremony">文定之喜</b>
+            <span class="album-go" data-en="View album →">觀看相簿 →</span>
+          </div>
+        </a>
       </div>
-      <div class="gallery" id="gal-engage"></div>
-      <div class="btn-row"><a class="btn" href="#engagement" data-en="See more engagement photos →">觀看更多文定照片 →</a></div>
     </div>
   </section>
 
@@ -504,6 +527,19 @@ html[lang="en"] .count small{letter-spacing:.12em}
   </section>
 </main>
 
+<div class="epage" id="photos" hidden>
+  <div class="inner">
+    <a class="back" href="#album-wedding" data-en="← Back to invitation">← 回到喜帖</a>
+    <div class="head">
+      <div class="eyebrow">Pre-wedding</div>
+      <h2 data-en="Pre-wedding Photos">婚紗照片</h2>
+      <svg class="ornament"><use href="#orn"/></svg>
+    </div>
+    <div class="gallery" id="gal"></div>
+    <div class="btn-row"><a class="btn fill" href="#album-wedding" data-en="Back to invitation">回到喜帖</a></div>
+  </div>
+</div>
+
 <div class="epage" id="engagement" hidden>
   <div class="inner">
     <a class="back" href="#engage-home" data-en="← Back to invitation">← 回到喜帖</a>
@@ -548,8 +584,7 @@ var EVENT = {
   rsvpUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdC5sszMY3VZCIumKLpH-BB_lg_zdZ5-igS2USP22CsFNPF3w/viewform"                            // 貼上 Google 表單網址
 };
 var PHOTOS = ["g01","g02","g03","g04","g05","g06","g07","g08","g09","g10","g11","g12","g13","g14"];
-var ENGAGE = ["e0279","e0359","e0129","e0454","e0519","e0729"];   // 首頁顯示
-var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189","e0204","e0259","e0264","e0274","e0279","e0284","e0294","e0304","e0319","e0324","e0329","e0354","e0359","e0374","e0394","e0409","e0429","e0444","e0454","e0469","e0512","e0519","e0554","e0604","e0614","e0644","e0729","e0744"];   // 觀看更多
+var ENGAGE_ALL = ["e0068", "e0073", "e0083", "e0098", "e0117", "e0143", "e0150", "e0157", "e0162", "e0168", "e0176", "e0185", "e0188", "e0190", "e0196", "e0199", "e0203", "e0207", "e0218", "e0220", "e0228", "e0232", "e0240", "e0255", "e0271", "e0272", "e0277", "e0284", "e0285", "e0309", "e0357", "e0368", "e0372", "e0376", "e0381", "e0384", "e0387", "e0390", "e0395", "e0402", "e0408", "e0419", "e0428", "e0433", "e0437", "e0442", "e0447", "e0451", "e0453", "e0456", "e0460", "e0464", "e0467", "e0471", "e0476", "e0485", "e0488", "e0492", "e0497", "e0499", "e0506", "e0508", "e0509", "e0515", "e0522", "e0527", "e0599", "e0613", "e0631", "e0644", "e0648", "e0650", "e0665", "e0676", "e0677", "e0683", "e0685", "e0691", "e0701", "e0703", "e0705", "e0712", "e0718", "e0728", "e0730", "e0732", "e0741", "e0757", "e0760"];   // 觀看更多
 
 (function(){
   var d = EVENT.start, pad = function(n){ return String(n).padStart(2,"0"); };
@@ -609,7 +644,7 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
   // 相簿 + 燈箱
   // 每個相簿各自一組，燈箱只在同一組裡左右切換
   var lb = document.getElementById("lb"), lbImg = document.getElementById("lb-img"), cur = 0, group = [], label = "";
-  var RATIO = {"e0089":1.5007,"e0109":1.5007,"e0119":1.5007,"e0129":1.5007,"e0149":1.5007,"e0164":1.5007,"e0179":1.5007,"e0189":1.5007,"e0204":1.5007,"e0259":1.5007,"e0264":0.6664,"e0274":0.6664,"e0279":0.6664,"e0284":0.6664,"e0294":1.5007,"e0304":1.5007,"e0319":1.5007,"e0324":0.6664,"e0329":0.6664,"e0354":1.5007,"e0359":1.7771,"e0374":1.5007,"e0394":1.5007,"e0409":1.5007,"e0429":1.5007,"e0444":1.5007,"e0454":0.6664,"e0469":0.6664,"e0512":0.6664,"e0519":0.6664,"e0554":1.5007,"e0604":1.5007,"e0614":1.5007,"e0644":1.5007,"e0729":0.6664,"e0744":1.5007,"g01":0.6667,"g02":0.6667,"g03":0.6667,"g04":0.6667,"g05":1.5,"g06":0.6667,"g07":0.6667,"g08":0.6667,"g09":0.6667,"g10":0.6667,"g11":0.6667,"g12":1.5,"g13":0.6667,"g14":0.6667};
+  var RATIO = {"g01":0.6667,"g02":0.6667,"g03":0.6667,"g04":0.6667,"g05":1.5,"g06":0.6667,"g07":0.6667,"g08":0.6667,"g09":0.6667,"g10":0.6667,"g11":0.6667,"g12":1.5,"g13":0.6667,"g14":0.6667,"e0068":1.5,"e0073":1.5,"e0083":1.5,"e0098":1.5,"e0117":1.5,"e0143":1.5,"e0150":1.5,"e0157":1.5,"e0162":1.5,"e0168":1.5,"e0176":1.5,"e0185":1.5,"e0188":1.5,"e0190":1.5,"e0196":1.5,"e0199":1.5,"e0203":1.5,"e0207":1.5,"e0218":1.5,"e0220":1.5,"e0228":1.5,"e0232":1.5,"e0240":1.5,"e0255":1.5,"e0271":1.5,"e0272":1.5,"e0277":0.6667,"e0284":0.6667,"e0285":1.5,"e0309":1.5,"e0357":1.5,"e0368":1.7778,"e0372":1.5,"e0376":1.5,"e0381":1.5,"e0384":1.5,"e0387":1.5,"e0390":1.5,"e0395":1.5,"e0402":1.5,"e0408":1.5,"e0419":1.5,"e0428":1.5,"e0433":1.5,"e0437":1.5,"e0442":1.5,"e0447":1.5,"e0451":1.5,"e0453":0.6667,"e0456":0.6667,"e0460":1.5,"e0464":1.5,"e0467":0.6667,"e0471":0.6667,"e0476":0.6667,"e0485":1.5,"e0488":1.5,"e0492":1.5,"e0497":0.6667,"e0499":1.5,"e0506":1.5,"e0508":0.6667,"e0509":0.6667,"e0515":1.5,"e0522":0.6667,"e0527":0.6667,"e0599":1.5,"e0613":1.5,"e0631":1.5,"e0644":1.5,"e0648":1.5,"e0650":1.5,"e0665":1.5,"e0676":1.5,"e0677":1.5,"e0683":1.5,"e0685":1.5,"e0691":1.5,"e0701":1.5,"e0703":1.5,"e0705":1.5,"e0712":1.5,"e0718":1.5,"e0728":0.6667,"e0730":0.6667,"e0732":1.5,"e0741":1.5,"e0757":0.6667,"e0760":0.6667};
   var galleries = [];
   function fill(el, list, name){
     var items = [];
@@ -659,7 +694,6 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
   var ro = "ResizeObserver" in window ? new ResizeObserver(function(){ galleries.forEach(layout); }) : null;
   if (!ro) window.addEventListener("resize", function(){ galleries.forEach(layout); });
   fill(document.getElementById("gal"), PHOTOS, "婚紗照");
-  fill(document.getElementById("gal-engage"), ENGAGE, "文定照");
   fill(document.getElementById("gal-full"), ENGAGE_ALL, "文定照");
   function show(i){
     cur = (i + group.length) % group.length;
@@ -698,15 +732,15 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
   (guess === "en" ? gateEn : gateZh).focus({preventScroll:true});
   document.getElementById("lang-btn").addEventListener("click", function(){ setLang(lang === "en" ? "zh" : "en"); });
 
-  // 「觀看更多」文定照片：同一頁切換畫面，音樂不會中斷，返回鍵可回喜帖
-  var epage = document.getElementById("engagement"), homeParts = [document.getElementById("top"), document.querySelector("main"), document.querySelector("footer")];
+  // 婚紗、文定相簿：同一頁切換畫面，音樂不會中斷，返回鍵可回喜帖
+  var pages = {"#photos": document.getElementById("photos"), "#engagement": document.getElementById("engagement")}, homeParts = [document.getElementById("top"), document.querySelector("main"), document.querySelector("footer")];
   // 重新整理時不讓瀏覽器自動捲回舊位置（開啟喜帖後一律從最上面開始），返回時自己記住位置
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   var homeY = 0;
   function route(){
-    var on = location.hash === "#engagement";
-    if (on && epage.hidden) homeY = window.scrollY;
-    epage.hidden = !on;
+    var on = pages[location.hash] || null;
+    if (on && !homeParts[1].hidden) homeY = window.scrollY;
+    Object.keys(pages).forEach(function(k){ pages[k].hidden = pages[k] !== on; });
     homeParts.forEach(function(el){ el.hidden = on; });
     if (on) { galleries.forEach(layout); window.scrollTo({top: 0, behavior: "instant"}); return; }
     var target = location.hash && document.getElementById(location.hash.slice(1));
