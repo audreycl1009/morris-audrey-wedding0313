@@ -490,7 +490,7 @@ html[lang="en"] .count small{letter-spacing:.12em}
           <div class="floor" data-en="Guo Quan Hall, 3F">三樓・國全廳</div>
           <p class="addr" id="addr" data-en="No. 99, Chaofu Rd., Xitun Dist., Taichung">台中市西屯區朝富路99號</p>
           <p class="tel"><span data-en="Tel">飯店電話</span> <span>04-2255-5555</span></p>
-          <div class="btn-row"><a class="btn fill" id="map" href="#" target="_blank" rel="noopener" data-en="Open in Google Maps">Google 地圖導航</a></div>
+          <div class="btn-row"><a class="btn fill" id="map" href="https://maps.app.goo.gl/fJYBPCZgsrwwuu4J8" target="_blank" rel="noopener" data-en="Open in Google Maps">Google 地圖導航</a></div>
         </div>
         <div class="notes rv">
           <div class="note">
@@ -636,7 +636,7 @@ var ENGAGE_ALL = ["e0068", "e0098", "e0117", "e0157", "e0176", "e0185", "e0196",
   document.getElementById("gcal").href = "https://calendar.google.com/calendar/render?action=TEMPLATE"
     + "&text="+encodeURIComponent(EVENT.title)+"&dates="+fmt(EVENT.start)+"/"+fmt(EVENT.end)
     + "&ctz=Asia/Taipei&location="+encodeURIComponent(EVENT.place);
-  document.getElementById("map").href = "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(EVENT.place);
+  document.getElementById("map").href = "https://maps.app.goo.gl/fJYBPCZgsrwwuu4J8";   // 新人提供的台中林酒店 Google 地圖連結
   var r = document.getElementById("rsvp-link");
   if (EVENT.rsvpUrl) r.href = EVENT.rsvpUrl;
   else { r.removeAttribute("href"); r.setAttribute("aria-disabled","true"); document.getElementById("rsvp-todo").hidden = false; }
