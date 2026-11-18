@@ -64,6 +64,23 @@ p{margin:0}
   .nav .cta{font-size:12px;letter-spacing:.12em;padding:6px 12px;white-space:nowrap}
 }
 @media (max-width:350px){.nav ul{gap:10px;letter-spacing:.05em}}
+/* 相簿下拉選單：點「相簿」展開（手機點按、電腦滑過或點按都可以） */
+.nav .dd{position:relative}
+.nav .dd-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:0;padding:0;margin:0;font:inherit;letter-spacing:inherit;color:var(--ink);cursor:pointer}
+.nav .dd-btn:hover,.nav .dd.open .dd-btn{color:var(--wine)}
+.nav .dd-btn .caret{width:9px;height:6px;transition:transform .2s ease}
+.nav .dd.open .caret{transform:rotate(180deg)}
+.nav .dd-menu{display:block;position:absolute;top:calc(100% + 18px);left:50%;min-width:150px;padding:8px 0;margin:0;
+  background:var(--ivory);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(60,20,25,.14);
+  opacity:0;visibility:hidden;transform:translate(-50%,-6px);transition:opacity .2s ease,transform .2s ease,visibility .2s;letter-spacing:.15em;white-space:nowrap}
+.nav .dd-menu::before{content:"";position:absolute;left:0;right:0;top:-19px;height:19px} /* 滑鼠移到選單途中不會關掉 */
+.nav .dd.open .dd-menu{opacity:1;visibility:visible;transform:translate(-50%,0)}
+@media (hover:hover){.nav .dd:not(.nohover):hover .dd-menu{opacity:1;visibility:visible;transform:translate(-50%,0)}}
+.nav .dd-menu li{display:block}
+.nav .dd-menu a,.nav .dd-menu .soon{display:block;padding:10px 20px;text-align:center}
+.nav .dd-menu a:hover{background:var(--paper)}
+.nav .dd-menu .soon{color:#a89890;cursor:not-allowed}
+.nav .dd-menu .soon em{display:block;margin-top:2px;font-style:italic;font-family:var(--f-latin);font-size:12px;letter-spacing:.08em;color:#a8834a}
 
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:100svh;display:grid;background:var(--wine);color:var(--ivory);overflow:hidden}
@@ -333,8 +350,14 @@ html[lang="en"] .count small{letter-spacing:.12em}
     <ul>
       <li><a href="#story" data-en="Invite">邀請</a></li>
       <li><a href="#when" data-en="Date">時間</a></li>
-      <li><a href="#gallery" data-en="Photos">相簿</a></li>
-      <li><a href="#engage-home" data-en="Engagement">文定</a></li>
+      <li class="dd" id="dd-photos">
+        <button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-menu"><span data-en="Photos">相簿</span><svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></button>
+        <ul class="dd-menu" id="dd-menu">
+          <li><a href="#gallery" data-en="Pre-wedding">婚紗照片</a></li>
+          <li><a href="#engage-home" data-en="Engagement">文定照片</a></li>
+          <li><span class="soon" aria-disabled="true"><span data-en="Wedding Day">婚宴照片</span><em>Coming soon</em></span></li>
+        </ul>
+      </li>
       <li><a href="#venue" data-en="Venue">交通</a></li>
     </ul>
     <a class="cta" href="#rsvp" data-en="RSVP">出席回覆</a>
@@ -693,6 +716,17 @@ var ENGAGE_ALL = ["e0089","e0109","e0119","e0129","e0149","e0164","e0179","e0189
   // 每次載入（含重新整理）都從喜帖首頁開始：清掉網址上的 #engagement、#rsvp 等
   if (location.hash) history.replaceState(null, "", location.pathname + location.search);
   route();
+
+  // 相簿下拉選單
+  var dd = document.getElementById("dd-photos"), ddBtn = dd.querySelector(".dd-btn");
+  function ddSet(o){ dd.classList.toggle("open", o); ddBtn.setAttribute("aria-expanded", o ? "true" : "false"); }
+  ddBtn.addEventListener("click", function(e){ e.stopPropagation(); ddSet(!dd.classList.contains("open")); });
+  dd.querySelectorAll(".dd-menu a").forEach(function(a){ a.addEventListener("click", function(){ ddSet(false); ddBtn.blur(); dd.classList.add("nohover"); }); });
+  dd.addEventListener("mouseleave", function(){ dd.classList.remove("nohover"); });
+  dd.querySelector(".soon").addEventListener("click", function(e){ e.stopPropagation(); });
+  document.addEventListener("click", function(e){ if (!dd.contains(e.target)) ddSet(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") ddSet(false); });
+  window.addEventListener("scroll", function(){ if (dd.classList.contains("open") && !dd.matches(":hover")) ddSet(false); }, {passive:true});
 
   // 導覽列：離開封面後出現
   var nav = document.getElementById("nav"), hero = document.getElementById("top");
